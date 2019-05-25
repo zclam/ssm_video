@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ssm_video:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="tmall_ssm.war">
+      <element id="artifact" artifact-name="ssm_video:war exploded" />
+    </root>
+  </artifact>
+</component>

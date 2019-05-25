@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzc.video.mapper.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.lzc.video.pojo.Video">
+    <id column="vid_id" jdbcType="INTEGER" property="vid_id" />
+    <result column="vid_name" jdbcType="VARCHAR" property="vid_name" />
+    <result column="vid_time" jdbcType="TIMESTAMP" property="vid_time" />
+    <result column="vid_cli" jdbcType="INTEGER" property="vid_cli" />
+    <result column="cat_id" jdbcType="INTEGER" property="cat_id" />
+    <result column="video_url" jdbcType="VARCHAR" property="video_url" />
+    <result column="pic_url" jdbcType="VARCHAR" property="pic_url" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    vid_id, vid_name, vid_time, vid_cli, cat_id, video_url, pic_url
+  </sql>
+  <select id="selectByExample" parameterType="com.lzc.video.pojo.VideoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video
+    where vid_id = #{vid_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from video
+    where vid_id = #{vid_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="vid_id" keyProperty="vid_id" parameterType="com.lzc.video.pojo.Video" useGeneratedKeys="true">
+    insert into video (vid_name, vid_time, vid_cli, 
+      cat_id, video_url, pic_url
+      )
+    values (#{vid_name,jdbcType=VARCHAR}, #{vid_time,jdbcType=TIMESTAMP}, #{vid_cli,jdbcType=INTEGER}, 
+      #{cat_id,jdbcType=INTEGER}, #{video_url,jdbcType=VARCHAR}, #{pic_url,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="vid_id" keyProperty="vid_id" parameterType="com.lzc.video.pojo.Video" useGeneratedKeys="true">
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vid_name != null">
+        vid_name,
+      </if>
+      <if test="vid_time != null">
+        vid_time,
+      </if>
+      <if test="vid_cli != null">
+        vid_cli,
+      </if>
+      <if test="cat_id != null">
+        cat_id,
+      </if>
+      <if test="video_url != null">
+        video_url,
+      </if>
+      <if test="pic_url != null">
+        pic_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vid_name != null">
+        #{vid_name,jdbcType=VARCHAR},
+      </if>
+      <if test="vid_time != null">
+        #{vid_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vid_cli != null">
+        #{vid_cli,jdbcType=INTEGER},
+      </if>
+      <if test="cat_id != null">
+        #{cat_id,jdbcType=INTEGER},
+      </if>
+      <if test="video_url != null">
+        #{video_url,jdbcType=VARCHAR},
+      </if>
+      <if test="pic_url != null">
+        #{pic_url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lzc.video.pojo.Video">
+    update video
+    <set>
+      <if test="vid_name != null">
+        vid_name = #{vid_name,jdbcType=VARCHAR},
+      </if>
+      <if test="vid_time != null">
+        vid_time = #{vid_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vid_cli != null">
+        vid_cli = #{vid_cli,jdbcType=INTEGER},
+      </if>
+      <if test="cat_id != null">
+        cat_id = #{cat_id,jdbcType=INTEGER},
+      </if>
+      <if test="video_url != null">
+        video_url = #{video_url,jdbcType=VARCHAR},
+      </if>
+      <if test="pic_url != null">
+        pic_url = #{pic_url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vid_id = #{vid_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lzc.video.pojo.Video">
+    update video
+    set vid_name = #{vid_name,jdbcType=VARCHAR},
+      vid_time = #{vid_time,jdbcType=TIMESTAMP},
+      vid_cli = #{vid_cli,jdbcType=INTEGER},
+      cat_id = #{cat_id,jdbcType=INTEGER},
+      video_url = #{video_url,jdbcType=VARCHAR},
+      pic_url = #{pic_url,jdbcType=VARCHAR}
+    where vid_id = #{vid_id,jdbcType=INTEGER}
+  </update>
+</mapper>
